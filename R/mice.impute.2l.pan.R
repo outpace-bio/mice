@@ -4,6 +4,7 @@
 #  2 ... fixed and random effects
 #  3 ... introduce aggregated effects (i.e. group means)
 #  4 ... fixed, random and aggregated effects
+#  5 ... random effects only 
 
 
 #' Imputation by a two-level normal model using \code{pan}
@@ -177,7 +178,8 @@ mice.impute.2l.pan <- function(y, ry, x, type, intercept = TRUE, paniter = 500,
   # columns fixed effects
   xcol <- seq(1, ncol(pred))
   type1 <- type[type != -2]
-  zcol <- which(type1 == 2)
+  xcol <- xcol[type1 !=5]
+  zcol <- which(type1 %in% c(2,5))
   # noninformative priors
   prior <- list(
     a = ncol(y1), Binv = diag(rep(1, ncol(y1))),
